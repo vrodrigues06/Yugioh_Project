@@ -1,0 +1,49 @@
+@import "tailwindcss";
+@tailwind utilities;
+
+@config "../tailwind.config.js";
+
+/* === linhas de conexão do bracket ====================== */
+
+.round {
+  /* coluna */
+  position: relative; /* referência p/ o SVG "implícito" que vamos criar */
+}
+
+.match-bracket {
+  /* card */
+  position: relative; /* cada pseudo-elemento nasce daqui */
+}
+
+/* ---- 1. Traço horizontal que sai do meio do card ---- */
+.round:not(:last-child) .match-bracket::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 100%; /* cola na borda direita */
+  width: 32px; /* mesmo valor do gap horizontal (= gap-14 → 3.5rem = 56 px)   */
+  height: 2px;
+  background: #cbd5e1; /* slate-300; ajuste à sua paleta */
+  transform: translateY(-50%);
+}
+
+/* ---- 2. Traço vertical que liga dois cards vizinhos ---- */
+.round:not(:last-child) .match-bracket:nth-child(odd)::before,
+.round:not(:last-child) .match-bracket:nth-child(even)::before {
+  content: "";
+  position: absolute;
+  left: calc(100% + 32px); /* depois do trecho horizontal */
+  width: 2px;
+  background: #cbd5e1;
+}
+
+/* sobe ou desce dependendo se é o 1º ou 2º do par */
+.round:not(:last-child) .match-bracket:nth-child(odd)::before {
+  top: 50%;
+  height: calc(100% + 16px); /* 16 px é o gap vertical (gap-4) */
+}
+
+.round:not(:last-child) .match-bracket:nth-child(even)::before {
+  top: -16px; /* -gap vertical */
+  height: calc(100% + 16px);
+}
