@@ -2,7 +2,6 @@ import { Helmet } from "react-helmet-async";
 import MundialForm from "../features/mundial-detalhes/MundialForm";
 import PersonagemCard from "../features/personagem-card/PersonagemCard";
 import TorneioCard from "../features/torneio-card/TorneioCard";
-import TournamentForm from "../features/torneio-detalhes/TournamentForm";
 import TorneioOverviewSection from "../features/torneio-overview/TorneioOverviewSection";
 import React from "react";
 import Loading from "../components/Loading";

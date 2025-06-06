@@ -5,8 +5,8 @@ import { calcularColocacoes } from "../../utils/global";
 import { setColor } from "../../utils/setColor";
 
 interface IPersonagemDetalhesRanking {
-  rankingMundial: number;
-  rankingNacional: number;
+  rankingMundial: number | null;
+  rankingNacional: number | null;
   personagem: Personagem;
 }
 
@@ -26,6 +26,9 @@ const PersonagemDetalhesRanking = ({
     quarto: quartoMundial,
     vezesFinal: vezesFinalMundial,
   } = calcularColocacoes(personagem.colocacoes_mundial);
+
+  if (!rankingMundial) return;
+  if (!rankingNacional) return;
 
   return (
     <div>

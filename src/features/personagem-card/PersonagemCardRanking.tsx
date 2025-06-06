@@ -2,8 +2,8 @@ import { FaMap } from "react-icons/fa";
 import { TbWorld } from "react-icons/tb";
 
 interface IPersonagemCardRanking {
-  rankingMundial: number;
-  rankingNacional: number;
+  rankingMundial: number | null;
+  rankingNacional: number | null;
   geracao: string;
 }
 
@@ -12,6 +12,9 @@ const PersonagemCardRanking = ({
   rankingNacional,
   geracao,
 }: IPersonagemCardRanking) => {
+  if (!rankingMundial) return;
+  if (!rankingNacional) return;
+
   return (
     <div className="self-start">
       <p className="text-xs sm:text-sm text-slate-400  mb-2 md:mb-3 relative">

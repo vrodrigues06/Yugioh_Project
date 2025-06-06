@@ -2,7 +2,7 @@ import React from "react";
 import { Personagem, PersonagemProps } from "../../@types/personagem";
 import FileInput from "../../components/FileInput";
 import Perfil from "../../components/Perfil";
-import { FieldValues, useForm } from "react-hook-form";
+import { FieldValues, useForm, UseFormRegister } from "react-hook-form";
 import Input from "../../components/Input";
 import useEditPersonagem from "../../hooks/useEditPersonagem";
 import LoadingMini from "../../components/LoadingMini";
@@ -10,6 +10,12 @@ import { uploadImagemPerfil } from "../../api/apiPersonagens";
 
 type PersonagemEditFormProps = {
   personagem: Personagem;
+};
+
+type FormData = {
+  nome: string;
+  deckName: string;
+  perfil?: FileList;
 };
 
 const PersonagemEditForm = ({ personagem }: PersonagemEditFormProps) => {
@@ -20,7 +26,7 @@ const PersonagemEditForm = ({ personagem }: PersonagemEditFormProps) => {
     clearErrors,
     setValue,
     formState: { errors, isSubmitting },
-  } = useForm({
+  } = useForm<FormData>({
     defaultValues: {
       nome: personagem.nome,
       deckName: personagem.deckName,
@@ -73,14 +79,14 @@ const PersonagemEditForm = ({ personagem }: PersonagemEditFormProps) => {
       <div className="grid sm:grid-cols-2 gap-2 gap-y-6 border-t border-sky-900 pt-4 items-center sm:w-md mb-4 mt-4">
         <Input
           label="Nome"
-          register={register}
+          register={register as unknown as UseFormRegister<FieldValues>}
           id="nome"
           errors={errors}
           errorMessage="Selecione um nome"
         />
         <Input
           label="Deck"
-          register={register}
+          register={register as unknown as UseFormRegister<FieldValues>}
           id="deckName"
           errors={errors}
           errorMessage="Selecione o Deck"

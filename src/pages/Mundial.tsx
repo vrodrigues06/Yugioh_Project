@@ -3,9 +3,7 @@ import { Helmet } from "react-helmet-async";
 import Error from "../components/Error";
 import { motion } from "framer-motion";
 import MundialModel from "./Mundial.model";
-import useModal from "../hooks/useModal";
 import Modal from "../components/modal";
-import MundialForm from "../features/mundial-detalhes/MundialForm";
 import { IoMdAdd } from "react-icons/io";
 import TorneioResultados from "../features/torneio-detalhes/TorneioResultados";
 import RankingAnual from "../features/torneio-card/RankingAnual";
@@ -29,7 +27,6 @@ const Mundial = () => {
     error,
     isLoading,
   } = MundialModel();
-  const { open, handleToggleModal } = useModal();
   const { status } = useAuth();
 
   if (!torneioSelected || !torneioAno)

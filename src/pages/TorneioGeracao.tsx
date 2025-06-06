@@ -7,8 +7,6 @@ import Error from "../components/Error";
 import Loading from "../components/Loading";
 import { IoMdAdd } from "react-icons/io";
 import Modal from "../components/modal";
-import TournamentForm from "../features/torneio-detalhes/TournamentForm";
-import MundialForm from "../features/mundial-detalhes/MundialForm";
 import PersonagemForm from "../features/personagens-detalhes/PersonagemForm";
 import useModal from "../hooks/useModal";
 import TorneioHallOfFame from "../features/torneio-detalhes/TorneioHallOfFame";
