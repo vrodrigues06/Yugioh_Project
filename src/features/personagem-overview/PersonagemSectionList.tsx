@@ -3,23 +3,21 @@ import { usePersonagemStore } from "../../store/usePersonagemStore";
 import PersonagemSectionListItem from "./PersonagemSectionListItem";
 import Error from "../../components/Error";
 import Loading from "../../components/Loading";
+import { Personagem } from "../../@types/personagem";
 
 interface IPersonagemSectionList {
   geracao: string;
+  personagens: Personagem[];
+  error: string | null;
+  isLoading: boolean;
 }
 
-const PersonagemSectionList = ({ geracao }: IPersonagemSectionList) => {
-  const {
-    personagensStore: personagens,
-    fetchAllPersonagens,
-    isLoading,
-    error,
-  } = usePersonagemStore();
-
-  React.useEffect(() => {
-    fetchAllPersonagens();
-  }, [fetchAllPersonagens]);
-
+const PersonagemSectionList = ({
+  geracao,
+  personagens,
+  error,
+  isLoading,
+}: IPersonagemSectionList) => {
   const personagensFilted = React.useMemo(() => {
     return geracao === "Todos"
       ? personagens

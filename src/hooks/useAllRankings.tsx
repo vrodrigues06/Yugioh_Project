@@ -14,6 +14,7 @@ export default function useAllRankings() {
       return rankings ?? ({} as RankingData); // Evita retornar null
     },
     retry: 2, // Tenta 2 vezes em caso de erro
+    staleTime: 1000 * 60 * 5, // 5 minutos (ajustável)
   });
 
   const errorMessage = error

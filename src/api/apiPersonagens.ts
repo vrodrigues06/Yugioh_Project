@@ -51,6 +51,26 @@ export async function getPersonagemByName(nome: string) {
   return data[0] as Personagem;
 }
 
+export async function getRandomPersonagem(): Promise<Personagem | null> {
+  const { data, error } = await supabase.from("personagens").select("*");
+
+  if (error)
+    throw new Error(
+      `Não foi possível carregar os Personagens: ${error.message}`,
+    );
+
+  if (!data || data.length === 0) return null;
+
+  // Embaralhamento Fisher-Yates para randomização justa
+  const shuffled = [...data];
+  for (let i = shuffled.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+  }
+
+  return shuffled[0] as Personagem;
+}
+
 export async function createPersonagem(personagem: Personagem | FieldValues) {
   try {
     const { data, error } = await supabase

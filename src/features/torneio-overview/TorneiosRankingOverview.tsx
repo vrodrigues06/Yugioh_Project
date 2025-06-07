@@ -5,17 +5,21 @@ import useAllPersonagens from "../../hooks/useAllPersonagens";
 import { motion } from "framer-motion";
 import Error from "../../components/Error";
 import Loading from "../../components/Loading";
+import { Personagem } from "../../@types/personagem";
 
 interface ITorneiosRankingOverview {
   geracao: string;
+  personagens: Personagem[];
+  error: string | null;
+  isLoading: boolean;
 }
 
-const TorneiosRankingOverview = ({ geracao }: ITorneiosRankingOverview) => {
-  const {
-    data: personagens,
-    error: errorPersonagem,
-    isLoading: isLoadingPersonagem,
-  } = useAllPersonagens();
+const TorneiosRankingOverview = ({
+  geracao,
+  personagens,
+  error: errorPersonagem,
+  isLoading: isLoadingPersonagem,
+}: ITorneiosRankingOverview) => {
   const {
     rankings,
     fetchRanking,

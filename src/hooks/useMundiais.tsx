@@ -14,6 +14,7 @@ export const useMundiais = () => {
       return torneios ?? []; // Evita retorno de null
     },
     retry: 2, // Tenta novamente até 2 vezes em caso de erro
+    staleTime: 1000 * 60 * 5, // 5 minutos
   });
 
   const errorMessage = error

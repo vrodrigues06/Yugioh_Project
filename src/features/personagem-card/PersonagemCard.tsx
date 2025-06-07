@@ -25,7 +25,7 @@ const PersonagemCard = () => {
 
   const error = errorPersonagem || errorRanking;
 
-  if (error) return <Error message={error} />;
+  if (error) return <Error message={error as string} />;
 
   const loading = isLoading || isLoadingRanking;
 

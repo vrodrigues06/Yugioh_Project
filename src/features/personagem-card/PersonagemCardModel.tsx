@@ -3,9 +3,19 @@ import useAllPersonagens from "../../hooks/useAllPersonagens";
 import { useRankingStore } from "../../store/useRankingStore";
 import { sortRanking } from "../../utils/sortRanking";
 import { findRankingIndex, setMelhoresColocacoes } from "../../utils/global";
+import { useQuery } from "@tanstack/react-query";
+import { getRandomPersonagem } from "../../api/apiPersonagens";
 
 export const usePersonagemCardModel = () => {
-  const { data: personagens, error, isLoading } = useAllPersonagens();
+  const {
+    data: randomPersonagem,
+    error,
+    isLoading,
+  } = useQuery({
+    queryKey: ["random-personagem"],
+    queryFn: getRandomPersonagem,
+  });
+
   const {
     rankings,
     fetchRanking,
@@ -16,12 +26,6 @@ export const usePersonagemCardModel = () => {
   React.useEffect(() => {
     fetchRanking();
   }, [fetchRanking]);
-
-  if (!personagens) return {};
-
-  const randomIndex = Math.floor(Math.random() * personagens.length);
-  const randomPersonagem = personagens[randomIndex];
-  // const randomPersonagem = personagens.find((p) => p.nome === "Zane Truesdale");
 
   if (!randomPersonagem) return {};
 

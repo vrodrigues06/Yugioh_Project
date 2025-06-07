@@ -1,15 +1,11 @@
 import { Helmet } from "react-helmet-async";
-import MundialForm from "../features/mundial-detalhes/MundialForm";
 import PersonagemCard from "../features/personagem-card/PersonagemCard";
 import TorneioCard from "../features/torneio-card/TorneioCard";
 import TorneioOverviewSection from "../features/torneio-overview/TorneioOverviewSection";
 import React from "react";
 import Loading from "../components/Loading";
-import { IoMdAdd } from "react-icons/io";
-import { useAuth } from "../components/AuthContext";
 
 const Home = () => {
-  const { status } = useAuth();
   const [isReady, setIsReady] = React.useState(false);
 
   React.useEffect(() => {

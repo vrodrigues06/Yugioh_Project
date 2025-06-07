@@ -12,7 +12,6 @@ const PersonagemCardRanking = ({
   rankingNacional,
   geracao,
 }: IPersonagemCardRanking) => {
-  if (!rankingMundial) return;
   if (!rankingNacional) return;
 
   return (
@@ -22,7 +21,7 @@ const PersonagemCardRanking = ({
         Rankings
       </p>
       <div className="text-xs sm:text-sm text-azul-150 grid gap-1">
-        {rankingMundial > 0 && (
+        {rankingMundial != null && rankingMundial > 0 && (
           <span className="flex items-center gap-0.5 xs:gap-1">
             {" "}
             <TbWorld className="text-orange-500 text-lg" /> Mundial: #

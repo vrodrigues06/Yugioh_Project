@@ -1,10 +1,16 @@
 import React from "react";
 import TorneiosRankingOverview from "./TorneiosRankingOverview";
 import PersonagemSectionList from "../personagem-overview/PersonagemSectionList";
+import useAllPersonagens from "../../hooks/useAllPersonagens";
 
 const categorias = ["Todos", "Dm", "Gx", "5ds", "Zexal", "Arc-v", "Vrains"];
 
 const TorneioOverviewSection = () => {
+  const {
+    data: personagens,
+    error: errorPersonagem,
+    isLoading: isLoadingPersonagem,
+  } = useAllPersonagens();
   const [categoriaAtiva, setCategoriaAtiva] = React.useState("Todos");
   function handleFilterChange({
     currentTarget,
@@ -32,8 +38,18 @@ const TorneioOverviewSection = () => {
           ))}
         </ul>
       </div>
-      <PersonagemSectionList geracao={categoriaAtiva} />
-      <TorneiosRankingOverview geracao={categoriaAtiva} />
+      <PersonagemSectionList
+        geracao={categoriaAtiva}
+        personagens={personagens}
+        error={errorPersonagem}
+        isLoading={isLoadingPersonagem}
+      />
+      <TorneiosRankingOverview
+        geracao={categoriaAtiva}
+        personagens={personagens}
+        error={errorPersonagem}
+        isLoading={isLoadingPersonagem}
+      />
     </section>
   );
 };

@@ -14,6 +14,7 @@ export const useAllTorneios = () => {
       return torneios ?? []; // Evita retorno de null
     },
     staleTime: 1000 * 60 * 60,
+
     retry: 2, // Tenta novamente até 2 vezes em caso de erro
   });
 

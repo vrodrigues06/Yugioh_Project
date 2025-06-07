@@ -15,6 +15,7 @@ const usePersonagens = (geracao: string) => {
     },
     enabled: !!geracao, // Evita chamadas desnecessárias se 'geracao' for undefined/null
     retry: 2,
+    staleTime: 1000 * 60 * 5, // 5 minutos
   });
 
   const errorMessage = error
