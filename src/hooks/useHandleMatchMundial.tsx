@@ -110,39 +110,39 @@ export const useHandleMatchMundial = ({
     const podium = setPodium(torneio.classificacao);
     torneio.status = "finalizado";
 
-    // const rankingAtual: Ranking = {
-    //   ano: torneio.ano,
-    //   geracao: "mundial",
-    //   ranking: torneio.classificacao.map(({ nome, pontos }) => ({
-    //     nome,
-    //     pontos,
-    //   })),
-    // };
+    const rankingAtual: Ranking = {
+      ano: torneio.ano,
+      geracao: "mundial",
+      ranking: torneio.classificacao.map(({ nome, pontos }) => ({
+        nome,
+        pontos,
+      })),
+    };
 
-    // updateRankingGlobal("mundial", torneio.classificacao);
-    // createRanking(rankingAtual);
+    updateRankingGlobal("mundial", torneio.classificacao);
+    createRanking(rankingAtual);
 
-    // personagens.forEach(
-    //   ({ nome, id, participacoes_mundial, pontuacao_mundial }) => {
-    //     const registro = torneio.classificacao.find((c) => c.nome === nome);
-    //     if (registro) {
-    //       let novaPontuacao;
-    //       if (pontuacao_mundial === null) {
-    //         novaPontuacao = registro.pontos;
-    //       } else {
-    //         novaPontuacao = registro.pontos + pontuacao_mundial;
-    //       }
+    personagens.forEach(
+      ({ nome, id, participacoes_mundial, pontuacao_mundial }) => {
+        const registro = torneio.classificacao.find((c) => c.nome === nome);
+        if (registro) {
+          let novaPontuacao;
+          if (pontuacao_mundial === null) {
+            novaPontuacao = registro.pontos;
+          } else {
+            novaPontuacao = registro.pontos + pontuacao_mundial;
+          }
 
-    //       const participacaoInc = participacoes_mundial + 1;
+          const participacaoInc = participacoes_mundial + 1;
 
-    //       const colocacao = {
-    //         ano: torneio.ano.toString(),
-    //         classificacao: registro.classificacao,
-    //       };
-    //       addRankingMundial(colocacao, participacaoInc, novaPontuacao, id);
-    //     }
-    //   },
-    // );
+          const colocacao = {
+            ano: torneio.ano.toString(),
+            classificacao: registro.classificacao,
+          };
+          addRankingMundial(colocacao, participacaoInc, novaPontuacao, id);
+        }
+      },
+    );
 
     finalizarTorneio({ podium, ano: torneio.ano });
 

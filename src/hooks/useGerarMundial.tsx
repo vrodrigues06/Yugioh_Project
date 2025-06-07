@@ -34,7 +34,9 @@ export const useGerarMundial = ({
 
     await createMundial(mundial);
 
-    navigate(`/mundial/painel-mundial/${ano}`);
+    setTimeout(() => {
+      navigate(`/mundial/painel-mundial/${ano}`);
+    }, 1000);
   }
 
   return {

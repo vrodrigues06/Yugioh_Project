@@ -14,6 +14,8 @@ export const usePersonagemCardModel = () => {
   } = useQuery({
     queryKey: ["random-personagem"],
     queryFn: getRandomPersonagem,
+    refetchOnWindowFocus: false, // <-- importante
+    staleTime: 1000 * 60 * 5, // opcional: mantém dados "frescos" por 5 minutos
   });
 
   const {

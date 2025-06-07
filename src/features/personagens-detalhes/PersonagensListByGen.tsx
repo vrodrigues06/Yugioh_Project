@@ -3,18 +3,14 @@ import { usePersonagemStore } from "../../store/usePersonagemStore";
 import Error from "../../components/Error";
 import Loading from "../../components/Loading";
 import PersonagensListByGenItem from "./PersonagensListByGenItem";
+import useAllPersonagens from "../../hooks/useAllPersonagens";
 
 interface IPersonagensListByGen {
   geracao: string;
 }
 
 const PersonagensListByGen = ({ geracao }: IPersonagensListByGen) => {
-  const {
-    personagensStore: personagens,
-    fetchAllPersonagens,
-    isLoading,
-    error,
-  } = usePersonagemStore();
+  const { data: personagens, error, isLoading } = useAllPersonagens();
 
   const [searchTerm, setSearchTerm] = React.useState("");
   const [debouncedSearchTerm, setDebouncedSearchTerm] = React.useState("");
@@ -28,10 +24,6 @@ const PersonagensListByGen = ({ geracao }: IPersonagensListByGen) => {
       clearTimeout(handler);
     };
   }, [searchTerm]);
-
-  React.useEffect(() => {
-    fetchAllPersonagens();
-  }, [fetchAllPersonagens]);
 
   const personagensFilted = React.useMemo(() => {
     const filteredByGen =
@@ -72,6 +64,7 @@ const PersonagensListByGen = ({ geracao }: IPersonagensListByGen) => {
               key={p.id}
               personagem={p}
               delay={index * 0.1}
+              isAtualizar={p.precisa_atualizar as boolean}
             />
           ))}
         </div>

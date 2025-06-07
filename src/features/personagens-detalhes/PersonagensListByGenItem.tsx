@@ -17,27 +17,19 @@ import { useAuth } from "../../components/AuthContext";
 interface IPersonagensListByGenItem {
   personagem: Personagem;
   delay: number;
+  isAtualizar: boolean;
 }
 
 const PersonagensListByGenItem = ({
   personagem,
   delay,
+  isAtualizar: atualizar,
 }: IPersonagensListByGenItem) => {
   const { status } = useAuth();
-  const [isAtualizar, setIsAtualizar] = React.useState(false);
   const { geracao } = useParams();
   const { id } = personagem;
   const { handleToggleModal, open } = useModal();
-
-  React.useEffect(() => {
-    async function fetchStatus() {
-      const response = await getUpdateNeed(id);
-      if (response.success) {
-        setIsAtualizar(response.data);
-      }
-    }
-    fetchStatus();
-  }, [id]);
+  const [isAtualizar, setIsAtualizar] = React.useState(atualizar);
 
   const titulos = personagem.colocacoes.filter(
     (c) => c.classificacao === "Campeao",
