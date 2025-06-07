@@ -50,18 +50,20 @@ export const DuelistItemMundialModel = ({
   const isCampeao = campeao?.nome === duelista;
 
   const {
-    rankingNacional,
+    rankingMundial,
     melhoresColocacoes,
     colocacoesAnteriores,
     titulos,
     vices,
     terceiro,
+    colocacoesAnterioresMundial,
+    melhoresColocacoesMundial,
     quarto,
     hasTitulo,
   } = useMemo(() => {
     if (!personagem) {
       return {
-        rankingNacional: null,
+        rankingMundial: null,
         melhoresColocacoes: [],
         colocacoesAnteriores: [],
         titulos: [],
@@ -72,33 +74,43 @@ export const DuelistItemMundialModel = ({
       };
     }
 
-    const rankingNacional = findRankingIndex(
+    const rankingMundial = findRankingIndex(
       personagem.nome,
       personagem.geracao,
       rankings,
+      true,
     );
 
     const melhoresColocacoes = setMelhoresColocacoes(personagem);
+    const melhoresColocacoesMundial = setMelhoresColocacoes(personagem, true);
 
     const colocacoesAnteriores = [...personagem.colocacoes]
       .sort((a, b) => b.ano - a.ano)
       .slice(0, 3);
 
-    const titulos = personagem.colocacoes.filter(
-      (c) => c.classificacao === "Campeao",
-    );
+    const colocacoesAnterioresMundial = personagem.colocacoes_mundial
+      ?.sort((a, b) => b.ano - a.ano)
+      .slice(0, 3);
 
-    const vices = personagem.colocacoes.filter(
-      (c) => c.classificacao === "Segundo",
-    );
+    const titulos =
+      personagem.colocacoes_mundial?.filter(
+        (c) => c.classificacao === "Campeao",
+      ) || [];
 
-    const terceiro = personagem.colocacoes.filter(
-      (c) => c.classificacao === "Terceiro",
-    );
+    const vices =
+      personagem.colocacoes_mundial?.filter(
+        (c) => c.classificacao === "Segundo",
+      ) || [];
 
-    const quarto = personagem.colocacoes.filter(
-      (c) => c.classificacao === "quarto",
-    );
+    const terceiro =
+      personagem.colocacoes_mundial?.filter(
+        (c) => c.classificacao === "Terceiro",
+      ) || [];
+
+    const quarto =
+      personagem.colocacoes_mundial?.filter(
+        (c) => c.classificacao === "Quarto",
+      ) || [];
 
     const hasTitulo =
       titulos.length > 0 ||
@@ -107,13 +119,15 @@ export const DuelistItemMundialModel = ({
       quarto.length > 0;
 
     return {
-      rankingNacional,
+      rankingMundial,
       melhoresColocacoes,
       colocacoesAnteriores,
       titulos,
       vices,
       terceiro,
       quarto,
+      colocacoesAnterioresMundial,
+      melhoresColocacoesMundial,
       hasTitulo,
     };
   }, [personagem, rankings]);
@@ -125,11 +139,13 @@ export const DuelistItemMundialModel = ({
     hasVencedor,
     isMatchReady,
     isCampeao,
-    rankingNacional,
+    rankingMundial,
     melhoresColocacoes,
     colocacoesAnteriores,
     titulos,
     vices,
+    colocacoesAnterioresMundial,
+    melhoresColocacoesMundial,
     terceiro,
     quarto,
     hasTitulo,

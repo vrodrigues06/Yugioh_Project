@@ -17,6 +17,7 @@ import { findRankingIndex, setMelhoresColocacoes } from "../../utils/global";
 import { useHandleMatch } from "../../hooks/useHandleMatch";
 import { DuelistItemMundialModel } from "./DuelistItemMundialModel";
 import { ConfirmModal } from "../../components/ConfirmModal";
+import supabase from "../../api/supabase";
 
 interface DuelistItemProps {
   match: Match;
@@ -38,11 +39,15 @@ const DuelistItemMundial = ({
     hasVencedor,
     isMatchReady,
     isCampeao,
-    rankingNacional,
+    rankingMundial,
     melhoresColocacoes,
     colocacoesAnteriores,
+    melhoresColocacoesMundial,
+    colocacoesAnterioresMundial,
     titulos,
     vices,
+    terceiro,
+    quarto,
     hasTitulo,
   } = DuelistItemMundialModel({ duelista, match, torneio });
   const [isModalOpen, setIsModalOpen] = React.useState(false);
@@ -54,6 +59,27 @@ const DuelistItemMundial = ({
     handleMatch(); // ação real
     closeModal();
   };
+
+  // React.useEffect(() => {
+  //   const atualizarParticipacoes = async () => {
+  //     if (!personagem?.colocacoes_mundial) return;
+
+  //     const participacoes_mundial = personagem.colocacoes_mundial.length;
+
+  //     const { data, error } = await supabase
+  //       .from("personagens")
+  //       .update({ participacoes_mundial })
+  //       .eq("id", personagem.id); // certifique-se que `personagem.id` está disponível
+
+  //     if (error) {
+  //       console.error("Erro ao atualizar a participação:", error);
+  //     } else {
+  //       console.log("Participações atualizadas com sucesso:", data);
+  //     }
+  //   };
+
+  //   atualizarParticipacoes();
+  // }, [personagem]);
 
   if (duelista === null) {
     const origem =
@@ -131,16 +157,26 @@ const DuelistItemMundial = ({
                     isCampeao ? "text-orange-100" : "text-slate-600"
                   }`}
                 >
-                  Nacional |
+                  Mundial |
                 </span>
               )}
               <div className="flex gap-1">
                 {titulos.map((t, i) => (
-                  <span key={i}>{setEmoji(t.classificacao)}</span>
+                  <span key={i}>{setEmoji("Mundial-C")}</span>
                 ))}
               </div>
               <div className="flex gap-1">
                 {vices.map((t, i) => (
+                  <span key={i}>{setEmoji("Mundial-V")}</span>
+                ))}
+              </div>
+              <div className="flex gap-1">
+                {terceiro.map((t, i) => (
+                  <span key={i}>{setEmoji(t.classificacao)}</span>
+                ))}
+              </div>
+              <div className="flex gap-1">
+                {quarto.map((t, i) => (
                   <span key={i}>{setEmoji(t.classificacao)}</span>
                 ))}
               </div>
@@ -155,9 +191,18 @@ const DuelistItemMundial = ({
                 {personagem?.deckName}
               </span>
             </h2>
-            <span>
-              Ranking <span className="text-white"> #{rankingNacional}</span>
-            </span>
+            {rankingMundial !== null && rankingMundial > 0 ? (
+              <div className="flex flex-col gap-0.5">
+                <span>
+                  Ranking <span className="text-white"> #{rankingMundial}</span>
+                </span>
+                <div>
+                  <p>Part: #{personagem.participacoes_mundial}</p>
+                </div>
+              </div>
+            ) : (
+              ""
+            )}
           </div>
           {melhoresColocacoes.length ? (
             <div className="mb-4">
@@ -177,13 +222,36 @@ const DuelistItemMundial = ({
           ) : (
             ""
           )}
-          {/* <div className="mb-2">
-          {personagem.participacoes_mundial > 0 && (
-            <p>Mundial Participações: #{personagem.participacoes_mundial}</p>
+
+          {colocacoesAnterioresMundial !== undefined ? (
+            <div className="mb-4">
+              <p className="mb-1 ">
+                Histórico Recente:{" "}
+                <span className="text-white"> (mundial) </span>
+              </p>
+              <ul className="grid gap-1">
+                {colocacoesAnterioresMundial.map((c) => (
+                  <li
+                    key={c.ano}
+                    className="flex gap-0.5 items-center text-white"
+                  >
+                    <span className="text-sky-400 font-semibold">
+                      {c.ano}:{" "}
+                    </span>{" "}
+                    {setEmoji(c.classificacao)} {c.classificacao}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          ) : (
+            ""
           )}
-        </div> */}
+
           <div>
-            <p className="mb-1 ">Histórico Recente:</p>
+            <p className="mb-1 ">
+              Histórico Recente:{" "}
+              <span className="text-white"> (nacional) </span>
+            </p>
             <ul className="grid gap-1">
               {colocacoesAnteriores.map((c) => (
                 <li
