@@ -23,9 +23,9 @@ const MundialHallOfFame = ({ ano }: IMundialHallOfFame) => {
     .filter((torneio) => torneio.ano <= ano)
     .reverse();
 
-  const campeoesLista = torneiosFiltedByGen.map((t) => {
-    return t.podium[0].nome;
-  });
+  const campeoesLista = torneiosFiltedByGen.flatMap((t) =>
+    t.podium.filter((p) => p.classificacao === "Campeao").map((p) => p.nome),
+  );
 
   const campeoesComTitulos = campeoesLista.reduce((acc, nome) => {
     const existente = acc.find((item) => item.nome === nome);

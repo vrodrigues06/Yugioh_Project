@@ -32,19 +32,27 @@ const TorneioResultados = <T extends Torneio | Mundial>({
   }
 
   const campeao = personagensStore.find(
-    (personagem) => torneio.podium[0]?.nome === personagem.nome,
+    (personagem) =>
+      torneio.podium.find((p) => p.classificacao === "Campeao")?.nome ===
+      personagem.nome,
   );
 
   const vice = personagensStore.find(
-    (personagem) => torneio.podium[1]?.nome === personagem.nome,
+    (personagem) =>
+      torneio.podium.find((p) => p.classificacao === "Segundo")?.nome ===
+      personagem.nome,
   );
 
   const terceiro = personagensStore.find(
-    (personagem) => torneio.podium[2]?.nome === personagem.nome,
+    (personagem) =>
+      torneio.podium.find((p) => p.classificacao === "Terceiro")?.nome ===
+      personagem.nome,
   );
 
   const quarto = personagensStore.find(
-    (personagem) => torneio.podium[3]?.nome === personagem.nome,
+    (personagem) =>
+      torneio.podium.find((p) => p.classificacao === "Quarto")?.nome ===
+      personagem.nome,
   );
 
   if (!campeao || !vice || !terceiro || !quarto) return;
