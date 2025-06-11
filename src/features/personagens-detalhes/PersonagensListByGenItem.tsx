@@ -1,3 +1,4 @@
+import { useQueryClient } from "@tanstack/react-query"; // ou react-query v3
 import { Personagem } from "../../@types/personagem";
 import { motion } from "framer-motion";
 import { Link, useParams } from "react-router";
@@ -13,6 +14,7 @@ import { FaRegBookmark } from "react-icons/fa";
 
 import useModal from "../../hooks/useModal";
 import { useAuth } from "../../components/AuthContext";
+import { QueryClient } from "@tanstack/react-query";
 
 interface IPersonagensListByGenItem {
   personagem: Personagem;
@@ -27,27 +29,32 @@ const PersonagensListByGenItem = ({
 }: IPersonagensListByGenItem) => {
   const { status } = useAuth();
   const { geracao } = useParams();
-  const { id } = personagem;
+  const { id, precisa_atualizar } = personagem;
   const { handleToggleModal, open } = useModal();
-  const [isAtualizar, setIsAtualizar] = React.useState(atualizar);
+  const [isAtualizar, setIsAtualizar] = React.useState(precisa_atualizar);
+  const queryClient = useQueryClient();
 
-  const titulos = personagem.colocacoes.filter(
-    (c) => c.classificacao === "Campeao",
-  );
+  React.useEffect(() => {
+    setIsAtualizar(precisa_atualizar);
+  }, [precisa_atualizar]);
 
-  const vices = personagem.colocacoes.filter(
-    (c) => c.classificacao === "Segundo",
-  );
-
-  const titulosMundial =
-    personagem.colocacoes_mundial?.filter(
+  const { titulos, vices, titulosMundial, vicesMundial } = React.useMemo(() => {
+    const titulos = personagem.colocacoes.filter(
       (c) => c.classificacao === "Campeao",
-    ) || [];
-
-  const vicesMundial =
-    personagem.colocacoes_mundial?.filter(
+    );
+    const vices = personagem.colocacoes.filter(
       (c) => c.classificacao === "Segundo",
-    ) || [];
+    );
+    const titulosMundial =
+      personagem.colocacoes_mundial?.filter(
+        (c) => c.classificacao === "Campeao",
+      ) || [];
+    const vicesMundial =
+      personagem.colocacoes_mundial?.filter(
+        (c) => c.classificacao === "Segundo",
+      ) || [];
+    return { titulos, vices, titulosMundial, vicesMundial };
+  }, [personagem]);
 
   const hasTitulo = titulos.length > 0 || vices.length > 0;
 
@@ -65,6 +72,10 @@ const PersonagensListByGenItem = ({
     if (!response.success) {
       setIsAtualizar(!novoEstado);
       alert("Erro ao atualizar status. Tente novamente.");
+    } else {
+      queryClient.invalidateQueries({
+        queryKey: ["allPersonagens"],
+      });
     }
   }
 

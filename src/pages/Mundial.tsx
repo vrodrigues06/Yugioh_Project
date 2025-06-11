@@ -8,18 +8,16 @@ import { IoMdAdd } from "react-icons/io";
 import TorneioResultados from "../features/torneio-detalhes/TorneioResultados";
 import RankingAnual from "../features/torneio-card/RankingAnual";
 import Loading from "../components/Loading";
-import TorneiosAnteriores from "../features/torneio-detalhes/TorneiosAnteriores";
 import TorneiosAnterioresMundial from "../features/mundial-detalhes/TorneiosAnterioresMundial";
 import MundialHallOfFame from "../features/mundial-detalhes/MundialHallOfFame";
 import { Link } from "react-router";
-
 import { MdDashboardCustomize } from "react-icons/md";
 import { useAuth } from "../components/AuthContext";
+import TorneioChavesFinal from "../features/torneio-detalhes/TorneioChavesFinal";
 
 const Mundial = () => {
   const {
     torneioAno,
-    setTorneioAno,
     torneioSelected,
     edicaoNumber,
     anos,
@@ -28,6 +26,11 @@ const Mundial = () => {
     isLoading,
   } = MundialModel();
   const { status } = useAuth();
+  const [abaSelecionada, setAbaSelecionada] = React.useState("resultados");
+
+  React.useEffect(() => {
+    setAbaSelecionada("resultados");
+  }, [torneioAno]);
 
   if (!torneioSelected || !torneioAno)
     return (
@@ -108,7 +111,41 @@ const Mundial = () => {
           </motion.div>
           <MundialHallOfFame ano={torneioAno} />
           <div key={torneioAno} className="grid lg:grid-cols-[3fr_1fr] gap-4">
-            <TorneioResultados torneio={torneioSelected} ano={torneioAno} />
+            <div className="overflow-hidden">
+              <div className="flex flex-col sm:flex-row gap-2 mb-4">
+                <button
+                  onClick={() => setAbaSelecionada("resultados")}
+                  className={`w-full sm:w-auto px-4 py-2 rounded-md font-semibold cursor-pointer
+      ${
+        abaSelecionada === "resultados"
+          ? "bg-orange-500 text-white"
+          : "bg-slate-800 text-slate-300"
+      }`}
+                >
+                  Resultados
+                </button>
+
+                {torneioSelected.matches.length !== 0 && (
+                  <button
+                    onClick={() => setAbaSelecionada("chaves")}
+                    className={`w-full sm:w-auto px-4 py-2 rounded-md font-semibold cursor-pointer
+        ${
+          abaSelecionada === "chaves"
+            ? "bg-orange-500 text-white"
+            : "bg-slate-800 text-slate-300"
+        }`}
+                  >
+                    Chave Final
+                  </button>
+                )}
+              </div>
+
+              {abaSelecionada === "chaves" ? (
+                <TorneioChavesFinal torneio={torneioSelected} />
+              ) : (
+                <TorneioResultados torneio={torneioSelected} ano={torneioAno} />
+              )}
+            </div>
             <RankingAnual ano={torneioAno} geracao="mundial" />
           </div>
           <TorneiosAnterioresMundial ano={torneioAno} />

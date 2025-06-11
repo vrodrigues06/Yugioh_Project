@@ -27,6 +27,7 @@ const TorneioHallOfFame = ({ ano, geracao }: ITorneioHallOfFame) => {
   const campeoesLista = torneiosFiltedByGen.flatMap((t) =>
     t.podium.filter((p) => p.classificacao === "Campeao").map((p) => p.nome),
   );
+
   const campeoesComTitulos = campeoesLista.reduce((acc, nome) => {
     const existente = acc.find((item) => item.nome === nome);
     if (existente) {

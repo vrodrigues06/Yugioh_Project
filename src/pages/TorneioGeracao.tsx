@@ -11,6 +11,8 @@ import PersonagemForm from "../features/personagens-detalhes/PersonagemForm";
 import useModal from "../hooks/useModal";
 import TorneioHallOfFame from "../features/torneio-detalhes/TorneioHallOfFame";
 import { Link } from "react-router";
+import React from "react";
+import TorneioChavesFinal from "../features/torneio-detalhes/TorneioChavesFinal";
 
 const TorneioGeracao = () => {
   const {
@@ -23,6 +25,12 @@ const TorneioGeracao = () => {
     error,
     isLoading,
   } = TorneioGeracaoModel();
+
+  const [abaSelecionada, setAbaSelecionada] = React.useState("resultados");
+
+  React.useEffect(() => {
+    setAbaSelecionada("resultados");
+  }, [torneioAno]);
 
   if (!geracao || !torneioSelected || !torneioAno)
     return (
@@ -83,7 +91,41 @@ const TorneioGeracao = () => {
 
         <TorneioHallOfFame ano={torneioAno} geracao={geracao} />
         <div key={torneioAno} className="grid lg:grid-cols-[3fr_1fr] gap-4">
-          <TorneioResultados torneio={torneioSelected} ano={torneioAno} />
+          <div className="overflow-hidden">
+            <div className="flex flex-col sm:flex-row gap-2 mb-4">
+              <button
+                onClick={() => setAbaSelecionada("resultados")}
+                className={`w-full sm:w-auto px-4 py-2 rounded-md font-semibold cursor-pointer
+      ${
+        abaSelecionada === "resultados"
+          ? "bg-orange-500 text-white"
+          : "bg-slate-800 text-slate-300"
+      }`}
+              >
+                Resultados
+              </button>
+
+              {torneioSelected.matches.length !== 0 && (
+                <button
+                  onClick={() => setAbaSelecionada("chaves")}
+                  className={`w-full sm:w-auto px-4 py-2 rounded-md font-semibold cursor-pointer
+        ${
+          abaSelecionada === "chaves"
+            ? "bg-orange-500 text-white"
+            : "bg-slate-800 text-slate-300"
+        }`}
+                >
+                  Chave Final
+                </button>
+              )}
+            </div>
+
+            {abaSelecionada === "chaves" ? (
+              <TorneioChavesFinal torneio={torneioSelected} />
+            ) : (
+              <TorneioResultados torneio={torneioSelected} ano={torneioAno} />
+            )}
+          </div>
           <RankingAnual ano={torneioAno} geracao={geracao} />
         </div>
         <TorneiosAnteriores ano={torneioAno} geracao={geracao} />
