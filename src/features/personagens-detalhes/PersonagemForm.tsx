@@ -37,7 +37,11 @@ const PersonagemForm = () => {
     const imageUrl = await uploadImagemPerfil(imagemFile, data.nome);
     if (!imageUrl) return;
 
-    const personagemData = { ...data, perfil: imageUrl };
+    const personagemData = {
+      ...data,
+      perfil: imageUrl,
+      precisa_atualizar: true,
+    };
 
     createPersonagem(personagemData, {
       onSuccess: () => {
