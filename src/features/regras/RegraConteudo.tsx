@@ -124,6 +124,18 @@ const RegraConteudo = () => {
           , isto está sujeito a mudança conforme forem adicionadas novas
           gerações.
         </>,
+        <>
+          O Mundial{" "}
+          <span className="text-orange-500 font-bold">
+            {" "}
+            não tem e não terá jamais duelos preliminares{" "}
+          </span>
+          , pois o objetivo é tornar o torneio restrito a poucos participantes,
+          então, é necessário uma organização para que os números de
+          participantes sejam sempre potencia de 2. Caso necessário serão
+          realizados sorteios aleatórios para eliminar participantes que
+          chegaram nas quartas.
+        </>,
       ],
     },
   };
