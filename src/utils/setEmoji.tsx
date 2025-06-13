@@ -23,7 +23,7 @@ export function setEmoji(classificacao: string): ReactNode | null {
     case "Pf":
       return <FaFlag className="text-slate-600" />;
     case "Mundial-C":
-      return <TbWorldStar className="text-orange-500" />;
+      return <TbWorldStar className="text-yellow-500" />;
     case "Mundial-V":
       return <TbWorldStar className="text-azul-150" />;
     default:
